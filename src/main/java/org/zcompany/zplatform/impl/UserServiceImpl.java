@@ -34,8 +34,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private FileUpload fileUpload;
 
-
-
     // validate password (reference: https://www.geeksforgeeks.org/how-to-validate-a-password-using-regular-expressions-in-java/)
     public static boolean isValidPassword(String password) {
         // Regex to check valid password.
@@ -52,6 +50,7 @@ public class UserServiceImpl implements UserService {
         return m.matches();
     }
 
+    //Check if the email is valid
     public static boolean isValidEmail(String emailAddress) {
         String regexPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$";
         return Pattern.compile(regexPattern)
@@ -59,6 +58,7 @@ public class UserServiceImpl implements UserService {
                 .matches();
     }
 
+    //check if the user is above thirteen years of Age
     public static boolean isAgeValid(LocalDate dob){
         // Validate age
         LocalDate now = LocalDate.now();
@@ -123,6 +123,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    //Update the user
     @Override
     public User updateUser(User user, Long id) {
         // Find the user to be updated
@@ -151,6 +152,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    //delete use
     @Override
     public void deleteUser(Long id) {
         // Find the user to be deleted
@@ -173,6 +175,7 @@ public class UserServiceImpl implements UserService {
         if (!optionalUser.isPresent()) {
             throw new IllegalArgumentException("User not found");
         }
+        //obtain image url from cloudly
         try {
             String imageUrl = fileUpload.uploadImage(image);
             user.setProfilePictureUrl(imageUrl);
@@ -183,6 +186,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    //Method to verify a user. It is used by the verifying personel
     @Override
     public void verifyUser(Long id, String nidOrPassport, String documentImageUrl) {
         // Retrieve the user by ID
@@ -197,22 +201,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

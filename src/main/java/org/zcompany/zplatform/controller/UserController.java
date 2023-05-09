@@ -1,6 +1,5 @@
 package org.zcompany.zplatform.controller;
 
-import com.cloudinary.Cloudinary;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,10 +10,9 @@ import org.zcompany.zplatform.Service.FileUpload;
 import org.zcompany.zplatform.Service.UserService;
 import org.zcompany.zplatform.Service.VerifyUser;
 import org.zcompany.zplatform.model.User;
-
 import java.io.IOException;
-import java.util.Map;
 
+//Swagger configurations
 @Api(tags = "User Management")
 @RestController
 @RequestMapping("api/")
@@ -29,6 +27,7 @@ public class UserController {
     @Autowired
     VerifyUser verifyUser;
 
+    //Swagger Configurations
     @ApiOperation(value = "Create a new user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User created successfully"),
@@ -66,7 +65,6 @@ public class UserController {
     }
 
     //delete user
-
     @ApiOperation(value = "Delete user")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "User deleted successfully"), })
@@ -77,14 +75,17 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    //Upload a profile picture
     @ApiOperation(value = "Upload profile picture")
     @ApiParam(value = "File to upload", required = true)
+    //obtain details from the path and use the details to find and update the user
     @PostMapping("/users/{id}/upload-profile")
     public ResponseEntity<Void> uploadProfilePicture(@PathVariable Long id, @RequestParam("image") MultipartFile image) {
         userService.uploadProfilePicture(id, image);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //Send a verification request
     @ApiOperation(value = "Request verification user")
     @PostMapping("/users/{id}/verify")
     public ResponseEntity<Void> requestVerification(
@@ -96,6 +97,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //Approve or deny user verification request
     @ApiOperation(value = "Approve or deny user verification request")
     @PostMapping("/users/verify/{id}")
     public ResponseEntity<Void> verifyResponse(
@@ -105,6 +107,4 @@ public class UserController {
         verifyUser.simulateVerificationCallback(id,response);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }
