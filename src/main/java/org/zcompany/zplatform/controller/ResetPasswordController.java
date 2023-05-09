@@ -21,31 +21,32 @@ public class ResetPasswordController {
         return ResponseEntity.ok(resetLink);
     }
 
-//    @PostMapping("/reset-password")
-//    public ResponseEntity<Void> resetPassword(@RequestParam("token") String token,
-//                                              @RequestParam("newPassword") String newPassword) {
-//        userService.resetPassword(token, newPassword);
-//        return ResponseEntity.ok().build();
+
+
+//    @GetMapping("/reset-password")
+//    public ModelAndView showResetPasswordForm(@RequestParam("token") String token) {
+//        // Check if the token exists and is valid
+//        User user = passwordService.findUserByPasswordResetToken(token);
+//        if (user == null) {
+//            return new ModelAndView("error", "message", "Invalid password reset token");
+//        }
+//
+//        // Create a ModelAndView with the reset-password form and the token
+//        ModelAndView modelAndView = new ModelAndView("reset-password");
+//        modelAndView.addObject("token", token);
+//        return modelAndView;
 //    }
-
-    @GetMapping("/reset-password")
-    public ModelAndView showResetPasswordForm(@RequestParam("token") String token) {
-        // Check if the token exists and is valid
-        User user = passwordService.findUserByPasswordResetToken(token);
-        if (user == null) {
-            return new ModelAndView("error", "message", "Invalid password reset token");
-        }
-
-        // Create a ModelAndView with the reset-password form and the token
-        ModelAndView modelAndView = new ModelAndView("reset-password");
-        modelAndView.addObject("token", token);
-        return modelAndView;
-    }
 
     @PostMapping("/update-password")
     public ModelAndView updatePassword(@RequestParam("token") String token,
                                        @RequestParam("password") String password,
                                        @RequestParam("passwordConfirm") String passwordConfirm) {
+        //check if token is valid
+        User user = passwordService.findUserByPasswordResetToken(token);
+        if (user == null) {
+            return new ModelAndView("error", "message", "Invalid password reset token");
+        }
+//
         // Check if the passwords match
         if (!password.equals(passwordConfirm)) {
             return new ModelAndView("error", "message", "Passwords do not match");
