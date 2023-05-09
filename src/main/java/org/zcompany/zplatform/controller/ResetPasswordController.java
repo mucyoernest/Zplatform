@@ -1,6 +1,7 @@
 package org.zcompany.zplatform.controller;
 
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.zcompany.zplatform.Service.ResetPasswordService;
 import org.zcompany.zplatform.model.User;
 
+@Api(tags = "Password reset")
 @RestController
 @RequestMapping("reset")
 public class ResetPasswordController {
